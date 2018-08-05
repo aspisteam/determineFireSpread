@@ -1,0 +1,14 @@
+{
+  "name": "determinefirespread",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run-lambda": "lambda-local -l index.js -e ./custominput.js -t 10000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "then-request": "^6.0.0"
+  }
+}
