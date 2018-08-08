@@ -4,19 +4,16 @@ var request = require('then-request');
 constants = require('./constants');
 
 //URLS
-let fuelModelInfoURL = 'http://emxsys.net/wmt-rest/rs/fuelmodels/';
 const surfaceFuelURL = 'http://emxsys.net/wmt-rest/rs/surfacefuel';
 const surfaceFireURL = 'http://emxsys.net/wmt-rest/rs/surfacefire';
-let weatherURL = 'https://api.darksky.net/forecast/37f15e5ba37febda526b82b195f15d37/';
-
 
 exports.handler = (event, context, callback) => {
     const lat = event.lat;
     const lon = event.lon;
     const fuelModelNumber = event.fuelModelNo;
     if(lat !== undefined || lon !== undefined && fuelModelNumber !== undefined){
-        weatherURL += (event.lat+','+event.lon);
-        fuelModelInfoURL += fuelModelNumber;
+        const weatherURL = 'https://api.darksky.net/forecast/37f15e5ba37febda526b82b195f15d37/'+ event.lat+','+event.lon;
+        const fuelModelInfoURL = 'http://emxsys.net/wmt-rest/rs/fuelmodels/'+fuelModelNumber;
 
         request('GET', weatherURL).done(function(res) {
             const weatherBody = JSON.parse(res.getBody());
@@ -35,7 +32,6 @@ exports.handler = (event, context, callback) => {
 
             request('GET', fuelModelInfoURL).done(function (res) {
                 const fuelModelInfoBody = JSON.parse(res.getBody());
-
                 var FormData = request.FormData;
                 var data = new FormData();
 
@@ -59,7 +55,7 @@ exports.handler = (event, context, callback) => {
                         let directionMaxSpread = surfaceFireBody.directionMaxSpread.value;
 
                         const x_length = 30;
-                        const y_length = 24;
+                        const y_length = 11;
                         const z_length = Math.sqrt(x_length*x_length + y_length*y_length);
 
                         const l1 = l5 = y_length;
